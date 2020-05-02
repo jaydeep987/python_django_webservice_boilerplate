@@ -5,6 +5,8 @@ env = environ.Env(
   DEBUG = (bool, False)
 )
 
+DEBUG = False
+
 # redirects all requests to https
 # SECURE_SSL_REDIRECT = True
 # session cookies will only be set, if https is used
@@ -18,7 +20,7 @@ DATABASES = {
     'NAME': env('DB_NAME'),
     'USER': env('DB_USER'),
     'PASSWORD': env('DB_PASSWORD'),
-    'HOST': env.db(),
+    'HOST': env('DB_HOST'),
     'PORT': env('DB_PORT'),
     'OPTIONS' : {
       'options': '-c search_path=%s,public' % env('DB_SCHEMA_NAME')
@@ -28,3 +30,5 @@ DATABASES = {
 
 # APPLICATION CONFIGURATION
 INSTALLED_APPS = DEFAULT_APPS
+
+ALLOWED_HOSTS = [env('ALLOWED_HOST')]

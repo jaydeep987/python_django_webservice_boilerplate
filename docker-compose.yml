@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  pg:
+    image: "${ECR_REGISTRY}/${ECR_REPOSITORY_APP}:${IMAGE_TAG}"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - static_files:/app/static
+    networks:
+      - app-network
+  nginx:
+    image: "${ECR_REGISTRY}/${ECR_REPOSITORY_SERVER}:${IMAGE_TAG}"
+    build:
+      context: ./docker-services/nginx
+      dockerfile: Dockerfile
+      args:
+        ECR_REPOSITORY_APP: ${ECR_REPOSITORY_APP}
+    depends_on:
+      - pg
+    volumes:
+      - .:/app
+      - static_files:/app/static
+    networks:
+      - app-network
+    ports:
+      - 32780:80
+      - 443:443
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  static_files:

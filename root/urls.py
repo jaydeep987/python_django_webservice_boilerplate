@@ -1,4 +1,4 @@
-"""bharat_ka_kisan URL Configuration
+""" URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -15,8 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
+from rest_framework.schemas import get_schema_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('polls/', include('polls.urls'))
+	path('admin/', admin.site.urls),
+	path('polls/', include('polls.urls')),
+
+	# This generates open api schema dynamically, and it is referenced at swagger-ui/ path
+	# This we can allow only in STG and DEV if API is not open, but for now, no limit!
+	path('openapi', get_schema_view(
+		title='python-django-web-service',
+		description='A boilerplate for getting started with python web service',
+		version='1.0.0'
+	), name='openapi-schema'),
+	path('swagger-ui/', TemplateView.as_view(
+		template_name='swagger-ui.html',
+		extra_context={'schema_url': 'openapi-schema'}
+	), name='swagger-ui'),
 ]

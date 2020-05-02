@@ -5,3 +5,6 @@ class DjangoDemo(models.Model):
   ad_client_id = models.DecimalField(max_digits=10, decimal_places=0)
   ad_org_id = models.DecimalField(max_digits=10, decimal_places=0)
   isactive = models.CharField(max_length=1)
+
+  def __str__(self):
+      return self.a_asset_id
