@@ -42,12 +42,30 @@ You need to set some `env` variables for e.g. `APP_ENV=prod`, `DB_NAME=xxxx` etc
 
 Just do `docker-compose up -d` and your server will be running! 🎉
 
-### Swagger UI
+## Testing
+
+Beauty of django tests I felt is, it's easy to write and it automatically creates *test database* during test and also destroys after test.
+
+Anyway to test I recommend first you check current coverage of project and know what is already tested and what is not. Don't repeat yourself!!
+
+`coverage run --omit='*/venv/*' manage.py test`
+
+Get coverage report with:
+
+`.coverage report`
+
+and you can also generate HTML Report:
+
+`.coverage html`
+
+Now there is already super simple test under `scheduler/tests` directory. And to test that just run:
+
+`python manage.py test scheduler`
+
+## Swagger UI
 
 Swagger UI is also configured. Goto `http://yourhost:port/swagger-ui/`
 
 ## Future work to do:
 - Set up `pylint`
-- Set up `tests`
 - Improve security in `nginx`
-- Get `SECRET_KEY` from file or AWS SSM

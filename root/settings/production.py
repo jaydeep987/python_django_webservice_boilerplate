@@ -5,6 +5,8 @@ env = environ.Env(
   DEBUG = (bool, False)
 )
 
+ADMIN_ENABLED = False
+
 DEBUG = False
 
 # redirects all requests to https

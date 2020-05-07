@@ -1,10 +1,13 @@
 #!/bin/bash
 
+# Collect static files
+yes | python manage.py collectstatic
+
 # Create database migration
-python manage.py makemigrations
+yes | python manage.py makemigrations
 
 # Apply database migration
-python manage.py migrate
+yes | python manage.py migrate
 
 # Finally start server
 gunicorn --bind 0.0.0.0:8000 root.wsgi

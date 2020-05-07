@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
+from django.conf import settings
 
 urlpatterns = [
-	path('admin/', admin.site.urls),
-	path('polls/', include('polls.urls')),
+	path('scheduler/', include('scheduler.urls')),
 
 	# This generates open api schema dynamically, and it is referenced at swagger-ui/ path
 	# This we can allow only in STG and DEV if API is not open, but for now, no limit!
@@ -34,3 +34,8 @@ urlpatterns = [
 		extra_context={'schema_url': 'openapi-schema'}
 	), name='swagger-ui'),
 ]
+
+if settings.ADMIN_ENABLED is True:
+	urlpatterns += [
+		path('admin/', admin.site.urls),
+	]

@@ -31,7 +31,7 @@ DEFAULT_APPS = [
   'django.contrib.messages',
   'django.contrib.staticfiles',
   'rest_framework',
-  'polls.apps.PollsConfig'
+  'scheduler.apps.SchedulerConfig'
 ]
 
 rest_rendere_classes = [

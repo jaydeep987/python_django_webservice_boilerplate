@@ -4,6 +4,8 @@ from root.settings.common import *
 
 DEBUG = True
 
+ADMIN_ENABLED = True
+
 ALLOWED_HOSTS = ['*']
 
 DATABASES = {

@@ -28,12 +28,14 @@ RUN chmod +x /usr/local/bin/entry-point.sh
 WORKDIR /app
 ADD . /app
 
-RUN mkdir -p /app/root/static
-# Collect static files
-RUN python manage.py collectstatic
+RUN mkdir -p /app/static
 
 # Switching to a non-root user, please refer to https://aka.ms/vscode-docker-python-user-rights
 RUN useradd appuser && chown -R appuser /app
+
+# This volume will have RW permission for user appuser
+VOLUME [ "/app/static" ]
+
 USER appuser
 
 EXPOSE 8000
