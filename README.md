@@ -42,6 +42,45 @@ You need to set some `env` variables for e.g. `APP_ENV=prod`, `DB_NAME=xxxx` etc
 
 Just do `docker-compose up -d` and your server will be running! 🎉
 
+## Database support
+Above given configuration is for `postgresql` database. `Django` provides default support for following databases:
+- PostgreSQL
+- MariaDB
+- MySQL
+- Oracle
+- SQLite
+
+So in that case you dont need any 3rd party libraray for using those engines.
+
+I provided information on using `mssql` database, in which you need to install 3rd party libraray called `django-mssql-backend`. There are some glitches we need to solve in addition to installing that lib.
+
+I used docker image for using mssql server :
+`docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=MsSQL@987' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-CU8-ubuntu`
+
+*NOTE:* Instructions are only for *Mac*!
+
+You *don't* need to externally install `django-mssql-backend` after you already done `pip install -r requirements.txt`. But it will fail when you run your project and complains about `odbc` driver. First I got following error:
+```
+ Library not loaded: /usr/local/opt/unixodbc/lib/libodbc.2.dylib
+```
+
+So I installed `brew install unixodbc`.
+
+After that I got another error : `Can't open lib 'ODBC Driver 17 for SQL Server'`. so I had to do following:
+
+```
+brew tap microsoft/mssql-release https://github.com/Microsoft/homebrew-mssql-release
+brew update
+brew install msodbcsql mssql-tools
+
+odbcinst -j
+
+sudo ln -s /usr/local/etc/odbcinst.ini /etc/odbcinst.ini
+sudo ln -s /usr/local/etc/odbc.ini /etc/odbc.ini
+```
+
+And that's it, now we can run : `python manage.py makemigrations` and `python manage.py migrate`
+
 ## Testing
 
 Beauty of django tests I felt is, it's easy to write and it automatically creates *test database* during test and also destroys after test.
